@@ -32,7 +32,7 @@ object Registry {
   def registryFlow: Flow[(Line, Boolean), Map[MetricMeta, Line], NotUsed] = {
     def aggregateLine(acc: Map[MetricMeta, Line], l: Line, remove: Boolean = false): Map[MetricMeta, Line] = {
       if (remove) {
-        acc.removed(l.primaryKey)
+        acc - l.primaryKey
       } else {
         acc.get(l.primaryKey).fold {
           acc + (l.primaryKey -> l)
