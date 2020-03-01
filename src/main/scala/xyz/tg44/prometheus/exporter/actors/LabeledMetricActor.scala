@@ -62,8 +62,7 @@ private[exporter] object LabeledMetricActor {
         state.foreach(_._2.remove())
         Behaviors.stopped
       case other =>
-        //context.log.warn(s"Unhandled request: $other")
-        context.log.warning(s"Unhandled request: $other")
+        context.log.warn(s"Unhandled request: $other")
         Behaviors.same
     }
   }
