@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      COMPOSE_INTERACTIVE_NO_CLI: 1
+      GITHUB_USER: CI
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: olafurpg/setup-scala@v5
+      - name: Compile
+        run: sbt compile test
+      - name: Push To GithubPackages
+        if: github.ref == 'refs/heads/master'
+        run: sbt publish
