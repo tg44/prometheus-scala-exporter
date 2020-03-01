@@ -24,4 +24,4 @@ jobs:
         run: sbt compile test
       - name: Push To GithubPackages
         if: github.ref == 'refs/heads/master'
-        run: sbt publish
+        run: sbt +publish
