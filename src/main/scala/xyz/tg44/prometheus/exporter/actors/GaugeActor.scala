@@ -21,24 +21,25 @@ private[exporter] object GaugeActor {
   case class SetTo(amount: Double, timeStamp: Long) extends GaugeValue with Command
   case class Stop() extends Command
 
-  def apply(meta: MetricMeta, registry: Registry, initial: Double = 0)(implicit clock: Clock[Id]): Behavior[Command] = Behaviors.setup { context =>
+  def apply(meta: MetricMeta, registry: Registry, initial: Double = 0, sendTime: Boolean = true)(implicit clock: Clock[Id]): Behavior[Command] = Behaviors.setup { context =>
     val now = clock.realTime(TimeUnit.MILLISECONDS)
-    new GaugeBehaviour(meta, registry, context).cnt(SetTo(initial, now))
+    new GaugeBehaviour(meta, registry, context, sendTime).cnt(SetTo(initial, now))
   }
 
   private class GaugeBehaviour (
     meta: MetricMeta,
     registry: Registry,
-    context: ActorContext[Command]
+    context: ActorContext[Command],
+    sendTime: Boolean
   ) {
     import cats.implicits._
     def cnt(state: GaugeValue): Behavior[Command] = Behaviors.receiveMessage {
       case v: GaugeValue =>
         val newState = state |+| v
-        registry.offerValue(meta, newState.amount, Some(state.timeStamp))
+        registry.offerValue(meta, newState.amount, if(sendTime) Some(state.timeStamp) else None)
         cnt(newState)
       case Stop() =>
-        registry.offerValue(meta, state.amount, Some(state.timeStamp), last = true)
+        registry.offerValue(meta, state.amount, if(sendTime) Some(state.timeStamp) else None, last = true)
         Behaviors.stopped
     }
   }
