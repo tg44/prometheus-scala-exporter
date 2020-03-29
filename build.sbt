@@ -1,13 +1,13 @@
 name := "prometheus-scala-exporter"
 
-version := "0.2.1"
+version := "0.2.2"
 
 scalaVersion := "2.13.1"
 
 crossScalaVersions := Seq("2.12.7", "2.13.1")
 
 libraryDependencies ++= {
-  val akkaV     = "2.6.1"
+  val akkaV     = "2.6.4"
   Seq(
     "com.typesafe.akka"  %% "akka-actor-typed"     % akkaV,
     "com.typesafe.akka"  %% "akka-stream"          % akkaV,
