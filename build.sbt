@@ -12,7 +12,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"  %% "akka-actor-typed"     % akkaV,
     "com.typesafe.akka"  %% "akka-stream"          % akkaV,
     "com.typesafe.akka"  %% "akka-stream-typed"    % akkaV,
-    "org.typelevel"         %% "cats-effect" % "2.0.0",
+    "org.typelevel"         %% "cats-effect" % "2.2.0",
     "org.scalatest"           %% "scalatest"      % "3.0.8" % Test,
   )
 }
