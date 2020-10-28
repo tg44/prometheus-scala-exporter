@@ -1,6 +1,6 @@
 name := "prometheus-scala-exporter"
 
-version := "0.2.2"
+version := "0.2.3"
 
 scalaVersion := "2.13.1"
 

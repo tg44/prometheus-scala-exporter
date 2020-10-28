@@ -30,6 +30,8 @@ libraryDependencies += "xyz.tg44" %% "prometheus-scala-exporter" % Version.prome
 
 Where `Version.prometheus` can be checked [here](https://github.com/tg44/prometheus-scala-exporter/blob/master/build.sbt#L3)!
 
+For code examples check the `ManualCheck` test [file](https://github.com/tg44/prometheus-scala-exporter/blob/master/src/test/scala/xyz/tg44/prometheus/exporter/ManualCheck.scala).
+
 ### How it works:
 
 You can spawn a new `Metric`. This metric is a wrapper to one or more actors. The metric has an enduser API.

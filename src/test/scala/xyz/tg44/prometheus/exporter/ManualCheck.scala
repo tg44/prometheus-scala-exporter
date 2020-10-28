@@ -7,7 +7,7 @@ import org.scalatest.WordSpecLike
 import xyz.tg44.prometheus.exporter
 
 import concurrent.duration._
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{Await, ExecutionContext}
 
 class ManualCheck extends WordSpecLike {
     import xyz.tg44.prometheus.exporter.implicits._
@@ -77,6 +77,14 @@ class ManualCheck extends WordSpecLike {
 
     Thread.sleep(9000)
     (10000 to 20000).foreach(i => summary.observe(i)) // 0.5 ~15000, 0.9 ~19000, 0.99 ~19900
+
+    printMetrics()
+
+    //Checkpoint example
+    import akka.stream.scaladsl._
+    import CheckpointStage._
+    val f = Source(1 to 20).throttle(1, 200.milliseconds).checkpoint("fast_stream").filter(_ % 2 == 0).checkpointForSlowStream("slower_stream").runWith(Sink.ignore)
+    Await.result(f, 10.seconds)
 
     printMetrics()
 
