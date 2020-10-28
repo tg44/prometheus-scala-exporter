@@ -22,6 +22,3 @@ jobs:
       - uses: olafurpg/setup-scala@v5
       - name: Compile
         run: sbt compile test
-      - name: Push To GithubPackages
-        if: github.ref == 'refs/heads/master'
-        run: sbt +publish

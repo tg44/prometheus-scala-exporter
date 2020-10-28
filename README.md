@@ -7,6 +7,29 @@ It's mostly conforms the specification. Namely [this](https://prometheus.io/docs
 With some love this could be a usable lib, but right now this is not a production ready thing! If you want to use this in close to production, pls contact me, so we can improve this!
 
 
+### Usage
+This repository is not published to the maven-central. If you want to try it out, you need to add the followings to your build.sbt.
+
+For adding the resolver;
+```scala
+val githubResolvers = Seq(Resolver.githubRaw("tg44", "prometheus-scala-exporter", "releases"))
+implicit class GHRawResolverSyntax(val resolver: Resolver.type) extends AnyVal {
+    def githubRaw(owner: String, repo: String, branch: String = "master"): MavenRepository =
+      realm(owner, repo, branch) at s"https://raw.github.com/$owner/$repo/$branch"
+    
+    private def realm(owner: String, repo: String, branch: String) =
+      s"GitHub Raw Registry ($owner/$repo:$branch)"
+}
+```
+
+Adding as dependency;
+```scala
+resolvers ++= githubResolvers
+libraryDependencies += "xyz.tg44" %% "prometheus-scala-exporter" % Version.prometheus
+```
+
+Where `Version.prometheus` can be checked [here](https://github.com/tg44/prometheus-scala-exporter/blob/master/build.sbt#L3)!
+
 ### How it works:
 
 You can spawn a new `Metric`. This metric is a wrapper to one or more actors. The metric has an enduser API.

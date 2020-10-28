@@ -45,3 +45,5 @@ tm.out
 worker*.log
 /bin
 results/*
+xyz/tg44/prometheus-scala-exporter_*
+
